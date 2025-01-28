@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -26,12 +27,17 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       console.log('form submitted')
       this.passwordError = this.password.length > 5 ? '' : 'Use a longer password dipshit!'
       if (!this.passwordError) {
         console.log('Username: ', this.username)
         console.log('Password: ', this.password)
+        let result = await axios.post("http://localhost:3000/signup", {
+          username:this.username,
+          password:this.password
+        })
+        console.log(result)
       }
     }
   }
