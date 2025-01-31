@@ -1,5 +1,19 @@
-'use strict';
+var koa = require('koa');
+var router = require('koa-router');
+var app = new koa();
 
+var _ = new router();              //Instantiate the router
+_.get('/hello', getMessage);   // Define routes
+
+function *getMessage() {
+   console.log('what the fuck?');
+   this.body = "Hello world!";
+};
+
+app.use(_.routes());           //Use the routes defined using the router
+app.listen(3000);
+
+/*
 const Koa = require('koa');
 var router = require('koa-router');
 //const bodyParser = require('koa-body');
@@ -13,7 +27,7 @@ var _ = new router();
 app.use(async ctx => {
   ctx.body = '<p>Hello, World!</p>';
 });
-*/
+* /
 
 // stolen from https://www.tutorialspoint.com/koajs/koajs_restful_apis.htm
 app.use(koaBody({
@@ -36,3 +50,4 @@ function *sendMovies(next){
 }
 
 app.listen(3000);
+*/
