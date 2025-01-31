@@ -1,19 +1,54 @@
+/* Lets see what ChatGPT can do? */
+
+// app.js
+const Koa = require('koa');
+const app = new Koa();
+
+// Define the /hello route
+app.use(async (ctx, next) => {
+  if (ctx.path === '/hello') {
+    ctx.body = 'Hello, world!';
+  } else {
+    await next();
+  }
+});
+
+// Define the /hello route
+app.use(async (ctx, next) => {
+  if (ctx.path === '/whatever') {
+    ctx.body = 'Whatever who care?!';
+  } else {
+    await next();
+  }
+});
+
+// Set the app to listen on port 3000
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
+
+
+/*  This shit from the tutorial doesn't fucking work
+
 var koa = require('koa');
 var router = require('koa-router');
 var app = new koa();
 
-var _ = new router();              //Instantiate the router
-_.get('/hello', getMessage);   // Define routes
+var _ = new router();
 
 function *getMessage() {
    console.log('what the fuck?');
    this.body = "Hello world!";
 };
 
-app.use(_.routes());           //Use the routes defined using the router
-app.listen(3000);
+_.get('/hello', getMessage);
 
-/*
+app.use(_.routes()); 
+app.listen(3000);
+*/
+
+/* neither does this...
+
 const Koa = require('koa');
 var router = require('koa-router');
 //const bodyParser = require('koa-body');
