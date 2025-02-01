@@ -1,4 +1,23 @@
+const Koa = require('koa');
+const Router = require('@koa/router');
+const app = new Koa();
+const router = new Router();
+const cors = require('@koa/cors');
+app.use(cors());
+
+router.post('/signup', ctx => {
+    ctx.body = 'Received POST request';
+});
+
+app.use(router.routes());
+
+app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
+});
+
 /* Lets see what ChatGPT can do? */
+
+/*  This block works, but lets see if we can make it better...
 
 // app.js
 const Koa = require('koa');
@@ -6,8 +25,8 @@ const app = new Koa();
 
 // Define the /hello route
 app.use(async (ctx, next) => {
-  if (ctx.path === '/hello') {
-    ctx.body = 'Hello, world!';
+  if (ctx.path === '/signup') {
+    ctx.body = 'duh signup?';
   } else {
     await next();
   }
@@ -26,7 +45,7 @@ app.use(async (ctx, next) => {
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');
 });
-
+*/
 
 /*  This shit from the tutorial doesn't fucking work
 
