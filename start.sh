@@ -27,14 +27,22 @@ fi
 
 # Then lets start them all up again...
 
+# Start the vue appp
 cd /home/dallas/prosaurus/vue/Breakroom
 
 npm run dev &
 
-cd /home/dallas/prosaurus/node
+# Start the koa app (except fuck this, probably gonna remove it)
+# cd /home/dallas/prosaurus/node
 
-nodemon index.js &
+# nodemon index.js &
 
+# Start the express app
+cd /home/dallas/prosaurus/express
+
+npm run devStart &
+
+# Start the pyton app for some reason? (because i'm a fucking moron perhaps?)
 cd /home/dallas/prosaurus/python
 
 . .venv/bin/activate

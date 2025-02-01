@@ -1,0 +1,101 @@
+To install PostgreSQL on Ubuntu, follow these steps:
+
+1. Update your package lists
+Before installing any new software, it’s a good idea to make sure your package list is up to date.
+
+Open a terminal and run:
+
+	sudo apt update
+
+
+2. Install PostgreSQL
+Install PostgreSQL and its related packages:
+
+	sudo apt install postgresql postgresql-contrib
+
+postgresql is the core PostgreSQL package.
+postgresql-contrib contains additional utilities and extensions for PostgreSQL.
+
+
+3. Check PostgreSQL service status
+After installation, PostgreSQL should start automatically. You can check the status of the PostgreSQL service to make sure it’s running:
+
+	sudo systemctl status postgresql
+
+If it's not running, start it with:
+
+	sudo systemctl start postgresql
+
+To enable it to start automatically at boot:
+
+	sudo systemctl enable postgresql
+
+
+4. Switch to the PostgreSQL user
+By default, PostgreSQL uses a special system user called postgres. To interact with the database, you can switch to this user:
+
+	sudo -i -u postgres
+
+
+5. Access the PostgreSQL prompt
+Once you’re logged in as the postgres user, you can access the PostgreSQL command-line interface (CLI) by running:
+
+	psql
+
+This will open the PostgreSQL shell, where you can run SQL commands. You should see a prompt like this:
+
+	postgres=#
+
+
+6. Create a database and user
+To create a new database and user, you can run these commands within the psql shell.
+
+To create a new database:
+
+	CREATE DATABASE mydatabase;
+
+To create a new user with a password:
+
+	CREATE USER myuser WITH PASSWORD 'mypassword';
+
+	CREATE DATABASE breakroom;
+	CREATE USER splort WITH PASSWORD 'glorp';
+
+
+Grant the user privileges on the database:
+
+	GRANT ALL PRIVILEGES ON DATABASE mydatabase TO myuser;
+
+To exit the PostgreSQL prompt:
+
+	\q
+
+(this is where i stopped)
+
+7. Configure PostgreSQL for remote connections (Optional)
+If you want PostgreSQL to accept remote connections, you'll need to adjust some configuration files.
+
+Edit the PostgreSQL configuration file postgresql.conf to listen on all IP addresses:
+
+sudo nano /etc/postgresql/{version}/main/postgresql.conf
+Replace {version} with your PostgreSQL version number (e.g., 12, 13, etc.). Look for the listen_addresses setting and change it to:
+
+listen_addresses = '*'
+Next, edit the pg_hba.conf file to allow remote connections:
+
+sudo nano /etc/postgresql/{version}/main/pg_hba.conf
+Add the following line at the end of the file:
+
+host    all             all             0.0.0.0/0            md5
+This allows any IP address to connect to PostgreSQL. Adjust the IP range if you need to restrict access.
+
+Restart PostgreSQL to apply the changes:
+
+sudo systemctl restart postgresql
+8. Install PostgreSQL client (Optional)
+If you want to connect to the PostgreSQL database from another machine, you’ll need to install the PostgreSQL client on that machine:
+
+sudo apt install postgresql-client
+You should now have PostgreSQL installed and running on your Ubuntu system! You can access it using the psql command, and you’re ready to start managing your databases.
+
+Let me know if you need further help with configuring or using PostgreSQL!
