@@ -34,7 +34,7 @@ export default {
         //console.log('Username: ', this.username)
         //console.log('Password: ', this.password)
         let result = await axios.post("http://10.6.0.48:3000/auth/signup", {
-          username:this.username,
+          name:this.username,
           password:this.password
         })
         console.log(result)

@@ -9,7 +9,7 @@ router.post('/signup', async (req, res) => {
 
   const client = await getClient();
 
-  const result = await client.query('SELECT * FROM "user"');
+  const result = await client.query('INSERT INTO "user" (name, password) VALUES ($1, $2);', [req.body.name, req.body.password]);
 
   res.json(result.rows);
   //res.send('ah yea whatever, signup i guess');
