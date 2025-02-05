@@ -1,7 +1,19 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const cors = require('cors');
+const app = express();
 
-app.set('view engine', 'ejs')
+app.use(cors());
+
+app.set('view engine', 'ejs');
+
+const authentication = require('./routes/authentication');
+
+// Middleware to parse incoming JSON data
+app.use(express.json());
+
+// Use routes
+app.use('/auth', authentication);
+
 
 // db.js
 const { Pool } = require('pg');
@@ -18,6 +30,7 @@ const pool = new Pool({
 // Export the pool for use in other files
 module.exports = pool;
 
+// Default route (which includes a bunch of shit from other demos)
 app.get('/', async (req, res) => {
   console.log('whatever')
   //res.send('Hi') // just sends Hi
@@ -35,9 +48,7 @@ app.get('/', async (req, res) => {
     console.error('Error executing query', err.stack);
     res.status(500).send('Internal Server Error');
   }
-
-
   //res.render("index", { text2: 'World duh...'});
 })
 
-app.listen(3001)
+app.listen(3000)

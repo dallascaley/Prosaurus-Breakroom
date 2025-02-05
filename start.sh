@@ -32,11 +32,6 @@ cd /home/dallas/prosaurus/vue/Breakroom
 
 npm run dev &
 
-# Start the koa app (except fuck this, probably gonna remove it)
-# cd /home/dallas/prosaurus/node
-
-# nodemon index.js &
-
 # Start the express app
 cd /home/dallas/prosaurus/express
 

@@ -183,3 +183,9 @@ Ensure that the PostgreSQL service is running on the VM: sudo systemctl status p
 Once connected, you should be able to interact with your PostgreSQL instance directly from DBVisualizer on your Windows machine!
 
 Let me know how it goes, or if you encounter any issues!
+
+---Issues---
+
+DBVisualizer complained about a Master Password.  Had to close DBVisualizer, go into windows and delete the .dbvis folder which is in the root of your user directory and then reopen the program
+
+Upon reopening it, READ THE FUCKING PAGE!, Right there on the first page is a thing where you can set the Master Password.  Do it!
