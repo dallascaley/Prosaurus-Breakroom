@@ -22,5 +22,5 @@ const getClient = async () => {
 
 // Export the getClient function for use in routes
 module.exports = {
-  getClient,
+  getClient
 };
