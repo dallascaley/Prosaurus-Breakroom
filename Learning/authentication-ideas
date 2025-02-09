@@ -1,0 +1,49 @@
+Here are my thoughts
+
+1) any message that goes from front end to backend needs to be encrypted, especially authentication related messages
+
+2) In order to do this. first figure out how to get HTTPS working.
+
+Paraphrased from Chat GPT
+
+A) Generate a self-signed SSL certificat
+
+openssl genpkey -algorithm RSA -out key.pem
+
+openssl req -new -key key.pem -out csr.pem
+
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:US
+State or Province Name (full name) [Some-State]:CA
+Locality Name (eg, city) []:Long Beach
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Cherry Blossom Development
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:Dallas Caley
+Email Address []:dallascaley@gmail.com
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:W--c---1
+An optional company name []:Prosaurus
+
+openssl x509 -req -in csr.pem -signkey key.pem -out cert.pem
+
+B) Configure Vue CLI to use HTTPS
+
+In vue.config.js make it look like this:
+
+module.exports = {
+  devServer: {
+    https: {
+      key: fs.readFileSync('./path/to/key.pem'),
+      cert: fs.readFileSync('./path/to/cert.pem'),
+    },
+    port: 8080, // You can change this port if needed
+  },
+};
