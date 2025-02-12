@@ -235,17 +235,13 @@ If you have SSH access to your VM, you can use a command to find the public IP a
 
 Using curl to check an external service: You can use a service like ifconfig.me or ipinfo.io to determine the public IP address. Run the following command in your VM's terminal:
 
-bash
-Copy
-Edit
-curl ifconfig.me
-Or:
+  curl ifconfig.me
 
-bash
-Copy
-Edit
-curl ipinfo.io/ip
-This will return the public IP address of your VM.
+  Or:
+
+  curl ipinfo.io/ip
+
+  This will return the public IP address of your VM.
 
 Using wget: Alternatively, you can use wget if curl is not installed:
 
@@ -315,6 +311,7 @@ ChatGPT said:
 To point the A record of your domain to your VM's public IP address on GoDaddy, you will need to modify the DNS settings in your GoDaddy account. Here's a step-by-step guide to help you configure the A record correctly:
 
 Step-by-Step Process to Point the A Record to Your VM’s Public IP Address:
+
 Log in to Your GoDaddy Account:
 
 Go to GoDaddy’s website.
@@ -323,7 +320,8 @@ Navigate to DNS Management:
 
 Once logged in, click on your username in the top-right corner and select "My Products".
 Find the domain you want to edit under the "Domains" section.
-Click on "DNS" next to the domain you want to update. This will take you to the DNS Management page.
+C
+lick on "DNS" next to the domain you want to update. This will take you to the DNS Management page.
 Locate the A Record Section:
 
 On the DNS Management page, you’ll see a list of DNS records for your domain.
@@ -407,10 +405,8 @@ export default defineConfig({
 This will make Vite listen on all interfaces, not just localhost, which means it will be accessible externally.
 Firewall and Security Settings: Ensure your VM’s firewall is configured to allow traffic on port 5173. On Linux-based systems, you may need to open the port manually using ufw or other firewall tools:
 
-bash
-Copy
-Edit
-sudo ufw allow 5173
+  sudo ufw allow 5173
+
 Public IP Exposure: Ensure that your VM is exposed to the internet with the correct public IP. You mentioned setting the A record, so make sure that the domain prosaurus.com correctly resolves to the public IP 96.41.85.126.
 
 2. Accessing Your Site Without Port Numbers (Optional)
@@ -459,3 +455,26 @@ Ensure port 5173 is open in your firewall.
 Use the URL https://prosaurus.com:5173 to connect directly.
 (Optional) Set up a reverse proxy (using Nginx or Apache) if you want to remove the need for the :5173 port in the URL and access the site as https://prosaurus.com.
 If you want your site to be available on the web without specifying a port number, consider setting up a reverse proxy and HTTPS with a standard port (80/443).
+
+
+Log of what I have actually done:
+
+I am trying to get a ssl cert via Let's Encrypt.  This is what I have done so far.
+
+1) figured out what my public IP address is by running this command on my VM
+
+  curl ifconfig.me
+
+  Which gave me 96.41.85.126
+
+  Note, I am suspicious that this will change after i reboot the VM
+
+2) Went to Godaddy and added an A record with this IP
+
+  Note, i'm currently just trying to get a the vue.js version of the site working (just the front end) which is currently running locally on port 5173
+
+3) Ensure my VM's firewall is configured to allow traffic on port 5173
+  
+  sudo ufw allow 5173
+
+Note, there's a bunch of other things that i need to do, but at this point I would expect to be able to see my site at https://prosaurus.com:5173 and I cannot.  This could be caused because of the 24-48 hours required for DNS propagation or i could have done something wrong.  What do you think?

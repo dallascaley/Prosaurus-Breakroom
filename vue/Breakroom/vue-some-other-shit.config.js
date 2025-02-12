@@ -14,6 +14,6 @@ module.exports = {
       key: fs.readFileSync('/home/dallas/prosaurus/key.pem'),
       cert: fs.readFileSync('/home/dallas/prosaurus/cert.pem'),
     },
-    port: 8080, // You can change this port if needed
+    port: 5173, // You can change this port if needed
   },
 };

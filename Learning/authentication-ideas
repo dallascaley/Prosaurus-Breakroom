@@ -47,3 +47,85 @@ module.exports = {
     port: 8080, // You can change this port if needed
   },
 };
+
+Note... this didn't work
+
+
+
+
+C) For Production (Deploying on a Web Server)
+
+(the rest of this is copied verbatim because i'm lazy)
+
+For production, enabling HTTPS depends on the hosting platform or web server you are using (e.g., Nginx, Apache, or a cloud service).
+
+Using Nginx or Apache:
+Obtain an SSL Certificate:
+
+You can get a free SSL certificate from Let's Encrypt, or you can purchase one from a certificate authority (CA) like Comodo, DigiCert, etc.
+If you're using Let's Encrypt, you can use the Certbot tool to obtain and configure your certificate automatically.
+Configure Nginx: After you have the SSL certificate, configure Nginx to serve your Vue.js application over HTTPS. Here's a basic example:
+
+nginx
+Copy
+Edit
+server {
+    listen 80;
+    server_name example.com www.example.com;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name example.com www.example.com;
+
+    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+
+    location / {
+        root /path/to/your/vue/build;
+        try_files $uri $uri/ /index.html;
+    }
+}
+Make sure to replace example.com with your actual domain and adjust the paths for your SSL certificate and key.
+After updating Nginx configuration, reload or restart the server:
+bash
+Copy
+Edit
+sudo nginx -s reload
+Configure Apache: If you're using Apache, the configuration might look like this:
+
+apache
+Copy
+Edit
+<VirtualHost *:80>
+    ServerName example.com
+    Redirect permanent / https://example.com/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName example.com
+    SSLEngine on
+    SSLCertificateFile /path/to/your/certificate.crt
+    SSLCertificateKeyFile /path/to/your/private.key
+    SSLCertificateChainFile /path/to/your/chainfile.pem
+
+    DocumentRoot /path/to/your/vue/build
+    <Directory /path/to/your/vue/build>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+</VirtualHost>
+Once you've made changes, restart Apache:
+bash
+Copy
+Edit
+sudo systemctl restart apache2
+3. Cloud Hosting (e.g., Netlify, Vercel, etc.)
+Netlify and Vercel automatically provide HTTPS for your site when you deploy it. All you need to do is link your domain to the platform, and it will configure HTTPS for you.
+Conclusion
+For local development, you can easily enable HTTPS using Vue CLI's vue.config.js file and a self-signed certificate. For production, you'll need to use a proper SSL certificate and configure a web server (like Nginx or Apache) to serve your app securely over HTTPS. If you're using a cloud service, most of them provide HTTPS automatically.
+
+Let me know if you need more help with any of the steps!
+

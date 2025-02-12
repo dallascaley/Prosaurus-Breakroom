@@ -33,7 +33,7 @@ export default {
       if (!this.passwordError) {
         //console.log('Username: ', this.username)
         //console.log('Password: ', this.password)
-        let result = await axios.post("http://10.6.0.48:3000/auth/signup", {
+        let result = await axios.post("https://10.6.0.48:3000/auth/signup", {
           name:this.username,
           password:this.password
         })
