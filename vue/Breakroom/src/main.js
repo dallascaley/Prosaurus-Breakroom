@@ -11,7 +11,8 @@ console.log('anything');
 if (window.location.protocol === 'http:') {
   console.log('Redirecting to https');
   //window.location.href = window.location.href.replace('http://', 'https://');
-  window.location.href = 'https://' + window.location.hostname + window.location.pathname + window.location.search + window.location.hash;
+  
+  //window.location.href = 'https://' + window.location.hostname + window.location.pathname + window.location.search + window.location.hash;
 } else {
   console.log('Corret https url');
 }

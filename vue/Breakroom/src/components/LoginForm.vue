@@ -2,7 +2,7 @@
   <form @submit.prevent="handleSubmit">
     <span>Log In</span>
     <div>
-      <label>Username: </label>
+      <label>Login/Handle: </label>
       <input type="text" required v-model="username">
     </div>
     <div>

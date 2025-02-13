@@ -2,8 +2,16 @@
   <form @submit.prevent="handleSubmit">
     <span>Sign Up</span>
     <div>
-      <label>Username: </label>
+      <label>Login/Handle: </label>
       <input type="text" required v-model="username">
+    </div>
+    <div>
+      <label>First Name: </label>
+      <input type="text" required v-model="firstname">
+    </div>
+    <div>
+      <label>Last Name: </label>
+      <input type="text" required v-model="lastname">
     </div>
     <div>
       <label>Password: </label>
@@ -22,6 +30,8 @@ export default {
   data() {
     return {
       username: '',
+      firstname: '',
+      lastname: '',
       password: '',
       passwordError: ''
     }
@@ -31,10 +41,10 @@ export default {
       console.log('form submitted')
       this.passwordError = this.password.length > 5 ? '' : 'Use a longer password dipshit!'
       if (!this.passwordError) {
-        //console.log('Username: ', this.username)
-        //console.log('Password: ', this.password)
         let result = await axios.post("https://10.6.0.48:3000/auth/signup", {
           name:this.username,
+          first:this.firstname,
+          last:this.lastname,
           password:this.password
         })
         console.log(result)
