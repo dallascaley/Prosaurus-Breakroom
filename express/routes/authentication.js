@@ -20,6 +20,21 @@ router.post('/signup', async (req, res) => {
   //res.send('ah yea whatever, signup i guess');
 });
 
+router.post('/login', async (req, res) => {
+  console.log('Request Body');
+  console.log(req.body);
+
+  console.log('log in or something whatever...');
+  //const client = await getClient();
+
+  //const result = await client.query('INSERT INTO "user" (name, password) VALUES ($1, $2);', [req.body.name, req.body.password]);
+
+  //sendMail('dallascaley@gmail.com', 'admin@prosaurus.com', 'Hey!!', 'Word.');
+
+  //res.json(result.rows);
+  //res.send('ah yea whatever, signup i guess');
+});
+
 // ChatGPT examples below
 router.get('/', (req, res) => {
   res.send('Get all users');
