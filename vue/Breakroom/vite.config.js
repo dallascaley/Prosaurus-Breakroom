@@ -24,5 +24,10 @@ export default defineConfig({
     watch: {
       usePolling: true,
     },
+    hmr: {
+      // Ensure that HMR uses a secure WebSocket (wss://)
+      protocol: 'wss',
+      host: '10.6.0.48',  // Update to match your server's public address
+    },
   },
 });
