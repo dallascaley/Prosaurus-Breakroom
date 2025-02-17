@@ -1,0 +1,62 @@
+I've been trying to get my locally hosted website to be available online.  using the command curl ifconfig.me I have determined that the IP address is 96.41.85.126 and I used that to configure a DNS A record on godaddy,  that was done several days ago so there should have been ample time for the DNS to propagate, however I still do not see the website at 96.41.85.126.    What is confusing to me is that when I run the site it is locally available at 10.6.0.48, which I presume is some local IP address only.  I am confused how the networking configuration connects 96.41.85.126 to 10.6.0.48.  
+
+ChatGPT said:
+
+I see what’s going on, and I can help clear up the confusion around the networking setup.
+
+Understanding the IPs
+
+  10.6.0.48 is indeed a local IP address (commonly used in private networks). This IP is part of your local network (likely behind a router or firewall). It is used for internal communication within your network (such as between your computer and your server).
+
+  96.41.85.126 is a public IP address, which is assigned by your ISP (Internet Service Provider) and can be accessed from the internet.
+
+How does the network connection work?
+
+  Here’s how the two IPs (10.6.0.48 and 96.41.85.126) are connected:
+
+  Local-to-Local Communication:
+
+    Your website works perfectly on 10.6.0.48 because that’s the IP address of your server on your local network.
+
+  Public Access:
+
+    To make your website accessible publicly, you need to ensure that any requests made to the public IP (96.41.85.126) are forwarded to the correct internal IP (10.6.0.48). This is done through port forwarding.
+
+Port Forwarding
+
+Your router is the key to connecting your public IP (96.41.85.126) to your local IP (10.6.0.48). If port forwarding is not set up correctly, people from the outside world won’t be able to access your local server.
+
+Here’s the basic idea:
+
+  Router Configuration: You need to set up port forwarding on your router to direct any traffic coming to 96.41.85.126 on a specific port (e.g., port 80 for HTTP, or port 443 for HTTPS) to be forwarded to 10.6.0.48. Without this, the router won’t know how to send incoming traffic on your public IP to the correct device on your internal network.
+
+  DNS Configuration: The A record in GoDaddy should point to 96.41.85.126, and once DNS has propagated, anyone typing your domain name into their browser will be routed to your public IP.
+
+Steps to Verify and Resolve the Issue
+
+  Verify DNS Propagation:
+
+    Ensure your DNS A record for your domain is pointing to 96.41.85.126. You can use online tools like whatsmydns.net to check if the DNS has propagated worldwide.
+
+  Check Port Forwarding:
+
+    Log into your router’s configuration page.
+
+    Look for a section called Port Forwarding, NAT, or Virtual Server.
+
+    Forward ports 80 (HTTP) and 443 (HTTPS) (or any custom port you are using for your website) to 10.6.0.48 on the appropriate local port.
+
+  Check Firewall Settings:
+
+    Ensure that your local machine’s firewall (on the machine with IP 10.6.0.48) is not blocking incoming connections. Check if your firewall allows traffic on ports 80 and 443 (or the ports you are using).
+
+  Test Externally:
+
+    After setting up port forwarding and ensuring DNS has propagated, test your website by accessing it externally (e.g., from your mobile data or a different network) to see if the site loads.
+
+Troubleshooting:
+
+If after doing all this, your website still isn’t accessible externally, it might be worth checking with your ISP if there are any restrictions or issues with your public IP address.
+
+You can also try using services like CanYouSeeMe to see if the necessary ports are open to the outside world.
+Let me know if you need any further clarification or help with any of these steps!

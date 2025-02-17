@@ -353,8 +353,10 @@ Just enter your domain name (e.g., yourdomain.com or www.yourdomain.com) and see
 
 Example of What It Should Look Like:
 Type	Name	Value	TTL
+
 A	@	96.41.85.126	3600
 A	www	96.41.85.126	3600
+
 That’s it! Now your domain (or subdomain) should point to your VM's public IP address.
 
 
