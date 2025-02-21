@@ -151,3 +151,7 @@ Log of what i did:
 Updated VirtualBox to the latest version
 
 Effect: now it boots full screen instead of having to be minimized then maximized.  Also it booted, like the first time.  We will see if this fixes the booting issue going forward.
+
+2/21/2025 update
+
+Problem is still not solved, had to boot twice.

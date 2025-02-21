@@ -60,15 +60,14 @@ C) For Production (Deploying on a Web Server)
 For production, enabling HTTPS depends on the hosting platform or web server you are using (e.g., Nginx, Apache, or a cloud service).
 
 Using Nginx or Apache:
+
 Obtain an SSL Certificate:
 
 You can get a free SSL certificate from Let's Encrypt, or you can purchase one from a certificate authority (CA) like Comodo, DigiCert, etc.
+
 If you're using Let's Encrypt, you can use the Certbot tool to obtain and configure your certificate automatically.
 Configure Nginx: After you have the SSL certificate, configure Nginx to serve your Vue.js application over HTTPS. Here's a basic example:
 
-nginx
-Copy
-Edit
 server {
     listen 80;
     server_name example.com www.example.com;
@@ -87,17 +86,14 @@ server {
         try_files $uri $uri/ /index.html;
     }
 }
+
 Make sure to replace example.com with your actual domain and adjust the paths for your SSL certificate and key.
 After updating Nginx configuration, reload or restart the server:
-bash
-Copy
-Edit
-sudo nginx -s reload
+
+  sudo nginx -s reload
+
 Configure Apache: If you're using Apache, the configuration might look like this:
 
-apache
-Copy
-Edit
 <VirtualHost *:80>
     ServerName example.com
     Redirect permanent / https://example.com/
@@ -117,15 +113,35 @@ Edit
         Require all granted
     </Directory>
 </VirtualHost>
+
 Once you've made changes, restart Apache:
-bash
-Copy
-Edit
-sudo systemctl restart apache2
+
+  sudo systemctl restart apache2
+
 3. Cloud Hosting (e.g., Netlify, Vercel, etc.)
+
 Netlify and Vercel automatically provide HTTPS for your site when you deploy it. All you need to do is link your domain to the platform, and it will configure HTTPS for you.
+
 Conclusion
+
 For local development, you can easily enable HTTPS using Vue CLI's vue.config.js file and a self-signed certificate. For production, you'll need to use a proper SSL certificate and configure a web server (like Nginx or Apache) to serve your app securely over HTTPS. If you're using a cloud service, most of them provide HTTPS automatically.
 
 Let me know if you need more help with any of the steps!
 
+Update: 2/21/2025
+
+The encryption keys have all been set and SSL is working.  now on to make the authentication actually work.
+
+Idea.
+
+1) When the user enters their new password, they must enter it twice.  The first validation simply checks if the passwords are the same
+
+2) Once it is verified that the passwords match.  The front end then 
+
+    a) generate a unique salt key
+
+    b) use an sha256 hash algorithm on the password concatenated with the salt key separated by a period to create a new hash.
+
+    c) This hash would be passed down to the back end along with the salt key.   The salt key would be stored in the database along with the password hash.
+
+4) Subsequent login attempts would do something similar in that it would hash whatever password was being submitted by the user and send only the hashed result to the backend
