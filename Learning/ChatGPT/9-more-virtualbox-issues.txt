@@ -1,0 +1,153 @@
+00:00:00.001951 main     VirtualBox COM Server 7.1.6 r167084 win.amd64 (Jan 21 2025 14:13:52) release log
+00:00:00.001955 main     Log opened 2025-02-20T17:47:36.672989500Z
+00:00:00.001955 main     Build Type: release
+00:00:00.001961 main     OS Product: Windows 11
+00:00:00.001962 main     OS Release: 10.0.26100
+00:00:00.001962 main     OS Service Pack: 
+00:00:00.045969 main     DMI Product Name: Inspiron 16 Plus 7620
+00:00:00.061424 main     DMI Product Version: 
+00:00:00.061443 main     Firmware type: UEFI
+00:00:00.062289 main     Secure Boot: Enabled
+00:00:00.062328 main     Host RAM: 32452MB (31.6GB) total, 18358MB (17.9GB) available
+00:00:00.062336 main     Executable: C:\Program Files\Oracle\VirtualBox\VBoxSVC.exe
+00:00:00.062337 main     Process ID: 4464
+00:00:00.062338 main     Package type: WINDOWS_64BITS_GENERIC
+00:00:00.062344 main     Windows Features:
+00:00:00.062344 main       Core Isolation (Memory Integrity): Not supported
+00:00:00.190324          VirtualBox: object creation starts
+00:00:00.190476          Home directory: 'C:\Users\dalla\.VirtualBox'
+00:00:00.190592          Installed Drivers:
+00:00:00.197844            C:\WINDOWS\system32\DRIVERS\VBoxNetLwf.sys (Version: 7.1.6.17084)
+00:00:00.197990            C:\WINDOWS\System32\drivers\VBoxNetAdp6.sys (Version: 7.1.6.17084)
+00:00:00.198222          Loading settings file "C:\Users\dalla\.VirtualBox\VirtualBox.xml" with version "1.12-windows"
+00:00:00.203092          usbLibGetDevices: Starting USB device enumeration
+00:00:00.203222          Getting USB descriptor (id 0) failed (dwErr=31) on hub USB#VID_17EF&PID_30BA#5&2ad16f6b&0&2#{f18a0e88-c30c-11d0-8815-00a0c906bed8} port 1
+00:00:00.203266          Getting USB descriptor (id 0) failed (dwErr=31) on hub USB#VID_17EF&PID_30BA#5&2ad16f6b&0&2#{f18a0e88-c30c-11d0-8815-00a0c906bed8} port 2
+00:00:00.210392          Getting USB descriptor (id 0) failed (dwErr=31) on hub USB#ROOT_HUB30#4&7f9e590&0&0#{f18a0e88-c30c-11d0-8815-00a0c906bed8} port 5
+00:00:00.210423          Getting USB descriptor (id 0) failed (dwErr=31) on hub USB#ROOT_HUB30#4&7f9e590&0&0#{f18a0e88-c30c-11d0-8815-00a0c906bed8} port 6
+00:00:00.210451          Getting USB descriptor (id 0) failed (dwErr=31) on hub USB#ROOT_HUB30#4&7f9e590&0&0#{f18a0e88-c30c-11d0-8815-00a0c906bed8} port 10
+00:00:00.210482          Getting USB descriptor (id 0) failed (dwErr=31) on hub USB#ROOT_HUB30#4&7f9e590&0&0#{f18a0e88-c30c-11d0-8815-00a0c906bed8} port 13
+00:00:00.356619          usbLibGetDevices: Found 8 USB devices, 0 captured
+00:00:00.356833          USB: Unknown USB device detected (idVendor: 0x0c45, idProduct: 0x6739)
+00:00:00.356882          USB: Unknown USB device detected (idVendor: 0x17ef, idProduct: 0x30b4)
+00:00:00.356899          USB: Unknown USB device detected (idVendor: 0x17ef, idProduct: 0x30b5)
+00:00:00.356932          USB: Unknown USB device detected (idVendor: 0x27c6, idProduct: 0x639c)
+00:00:00.356962          USB: Unknown USB device detected (idVendor: 0x8087, idProduct: 0x0033)
+00:00:00.444632          HostDnsMonitor: initializing
+00:00:00.452996          HostDnsMonitor: updating information
+00:00:00.453015          HostDnsMonitor: old information
+00:00:00.453015            no server entries
+00:00:00.453016            no domain set
+00:00:00.453016            no search string entries
+00:00:00.453016          HostDnsMonitor: new information
+00:00:00.453016            server 1: 10.6.0.1
+00:00:00.453017            server 2: 71.10.216.1
+00:00:00.453017            server 3: 71.10.216.2
+00:00:00.453018            no domain set
+00:00:00.453018            no search string entries
+00:00:00.509778          VD: VDInit finished with VINF_SUCCESS
+00:00:00.510699          Platform architecture set to 'x86'
+00:00:00.511056          Loading settings file "C:\Users\dalla\VirtualBox VMs\Sandbox\Sandbox.vbox" with version "1.19-windows"
+00:00:00.511363          Platform architecture set to 'x86'
+00:00:00.511637          Platform architecture set to 'x86'
+00:00:00.511980          Loading settings file "C:\Users\dalla\VirtualBox VMs\Ubuntu-Local\Ubuntu-Local.vbox" with version "1.19-windows"
+00:00:00.512187          Platform architecture set to 'x86'
+00:00:00.512960          VirtualBox: object created
+00:00:00.551948          Saving settings file "C:\Users\dalla\.VirtualBox\VirtualBox.xml" with version "1.12-windows"
+00:00:00.554941          Finished saving settings file "C:\Users\dalla\.VirtualBox\VirtualBox.xml"
+00:00:00.579615          Saving settings file "C:\Users\dalla\.VirtualBox\VirtualBox.xml" with version "1.12-windows"
+00:00:00.582853          Finished saving settings file "C:\Users\dalla\.VirtualBox\VirtualBox.xml"
+00:00:00.582940          Saving settings file "C:\Users\dalla\.VirtualBox\VirtualBox.xml" with version "1.12-windows"
+00:00:00.584847          Finished saving settings file "C:\Users\dalla\.VirtualBox\VirtualBox.xml"
+00:00:00.584928          Saving settings file "C:\Users\dalla\.VirtualBox\VirtualBox.xml" with version "1.12-windows"
+00:00:00.588001          Finished saving settings file "C:\Users\dalla\.VirtualBox\VirtualBox.xml"
+00:00:01.070752          ERROR [COM]: aRC=VBOX_E_OBJECT_NOT_FOUND (0x80bb0001) aIID={5bfd8965-b81b-469f-8649-f717ce97a5d5} aComponent={NvramStoreWrap} aText={The UEFI NVRAM file is not existing for this machine}, preserve=false aResultDetail=0
+00:00:01.132607          ERROR [COM]: aRC=VBOX_E_INVALID_VM_STATE (0x80bb0002) aIID={e36a5081-a82a-40bd-9e4e-42a44d6ce50f} aComponent={MachineWrap} aText={The machine is not mutable, saved or running (state is PoweredOff)}, preserve=false aResultDetail=0
+
+
+ChatGPT:
+
+Thanks for providing the log! From the entries, it looks like there are several errors related to the state of the virtual machine (VM) and some other issues that might explain why the VM struggles to boot on the first attempt. Let's break down the key errors:
+
+Key Error Messages:
+VBOX_E_INVALID_VM_STATE:
+
+This is one of the most common errors you’ll see in the log. It indicates that VirtualBox is trying to modify or interact with the VM, but the machine is in an invalid state. The error occurs in various states like "PoweredOff," "Running," "Stopping," or "Starting."
+Specifically, this line appears multiple times in the log:
+
+ERROR [COM]: aRC=VBOX_E_INVALID_VM_STATE (0x80bb0002) aIID={300763af-5d6b-46e6-aa96-273eac15538a} aComponent={MachineWrap} aText={The machine is not mutable (state is PoweredOff)}
+
+This suggests that VirtualBox is trying to perform operations on the VM when it’s not in the correct state for that action (e.g., modifying a powered-off VM).
+
+Possible Causes:
+
+VM state corruption: If the VM's state is corrupted or if VirtualBox fails to correctly track the state of the VM, you could see these errors when VirtualBox tries to modify it (such as saving settings, snapshots, or performing other operations).
+
+Improper shutdowns: If the VM was improperly shut down (e.g., forcefully powered off or the host crashed), VirtualBox may be in a confused state, leading to this error.
+
+VBOX_E_OBJECT_NOT_FOUND:
+
+The log also includes an error indicating that a required object could not be found:
+
+ERROR [COM]: aRC=VBOX_E_OBJECT_NOT_FOUND (0x80bb0001) aIID={70401eef-c8e9-466b-9660-45cb3e9979e4} aComponent={ExtPackManagerWrap} aText={No extension pack by the name 'Oracle VM VirtualBox Extension Pack' was found}
+
+This error suggests that VirtualBox could not find the extension pack needed to handle certain features, like USB devices, virtual networking, or others that require the extension pack.
+
+Possible Causes:
+
+Missing or corrupted extension pack: The extension pack may not be installed or properly configured on your system. This can lead to problems with certain VM functionalities like USB support.
+
+VBOX_E_IPRT_ERROR:
+
+This error occurs when VirtualBox encounters an issue related to internal processing (IPRT stands for "Internal Process Runtime").
+
+ERROR [COM]: aRC=VBOX_E_IPRT_ERROR (0x80bb0005) aIID={300763af-5d6b-46e6-aa96-273eac15538a} aComponent={SessionMachine} aText={Saved screenshot data is not available (VERR_NOT_SUPPORTED)}, preserve=false aResultDetail=-37
+
+This error suggests that a saved screenshot file is either missing or incompatible with the VM's current state. It's less likely to be the direct cause of the boot issue, but could indicate that VirtualBox is having trouble loading or restoring certain saved states.
+
+VBOX_E_OBJECT_NOT_FOUND (UEFI NVRAM):
+
+Another significant error:
+
+ERROR [COM]: aRC=VBOX_E_OBJECT_NOT_FOUND (0x80bb0001) aIID={5bfd8965-b81b-469f-8649-f717ce97a5d5} aComponent={NvramStoreWrap} aText={The UEFI NVRAM file is not existing for this machine.}
+
+This error indicates that VirtualBox is looking for a UEFI NVRAM file, which is used to store the UEFI settings (like boot order). The absence of this file can prevent the VM from booting correctly, especially if the VM is configured to use UEFI for booting.
+
+Possible Causes:
+
+UEFI NVRAM corruption: If the NVRAM file is corrupted or missing, it could prevent the VM from booting. This file is crucial when using UEFI for booting.
+
+Recommendations for Fixing These Issues:
+
+Check the VM's state: Try manually ensuring the VM is in a clean state (either powered off or not in a suspended state) before starting it again. You might want to forcefully shut down the VM and ensure it is properly powered off via the VirtualBox GUI.
+
+Check VirtualBox Extension Pack:
+
+Reinstall the VirtualBox Extension Pack to resolve the missing extension issue:
+
+Go to the VirtualBox Extension Pack download page.
+Install the extension pack corresponding to your VirtualBox version.
+Restart VirtualBox and try starting the VM again.
+
+UEFI NVRAM Issue:
+
+You may need to reset or recreate the UEFI NVRAM settings for the VM. Try the following:
+
+In VirtualBox, go to the VM settings, and under System → Motherboard, change the boot order to something else (like disabling UEFI or switching to BIOS).
+
+If you must use UEFI, try removing the current NVRAM file and let VirtualBox recreate it when you next start the VM. You can find the NVRAM file in the VM's folder and delete it (make sure the VM is powered off).
+
+General Maintenance:
+
+Update VirtualBox to the latest version if you haven't already.
+
+Consider checking the VM's disk image (VMDK or VDI) for errors, especially if VirtualBox is having trouble with certain operations like saving state or loading configurations.
+
+By fixing these issues, the likelihood of the first boot failure should decrease. Let me know if you'd like more help with any of these steps!
+
+
+Log of what i did:
+
+Updated VirtualBox to the latest version
+
+Effect: now it boots full screen instead of having to be minimized then maximized.  Also it booted, like the first time.  We will see if this fixes the booting issue going forward.

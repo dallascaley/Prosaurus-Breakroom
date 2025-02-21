@@ -159,6 +159,23 @@ Challenges
 
     Certbot will handle the ACME challenge, verify ownership of the domain, and issue the certificate.
 
+
+  --------- log of successful cert creation
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/prosaurus.com/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/prosaurus.com/privkey.pem
+This certificate expires on 2025-05-21.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+ * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+ * Donating to EFF:                    https://eff.org/donate-le
+
+  ---------
+
   Step 4: Set Up Vite for SSL
 
     Once you have your certificate, you can configure Vite to use it in the development environment.

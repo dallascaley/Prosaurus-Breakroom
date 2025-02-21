@@ -2,7 +2,14 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
 const app = express();
+
+// Load your SSL certificate and key
+const options = {
+  key: fs.readFileSync('/etc/letsencrypt/live/prosaurus.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/prosaurus.com/fullchain.pem'),
+};
 
 app.use(cors());
 

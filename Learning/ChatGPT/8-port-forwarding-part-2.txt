@@ -1,0 +1,114 @@
+Initial Question:
+
+I have created a local web application which has the following components: 
+
+A) an express.js backend hosted on port 3000
+B) a vue.js front end hosted on port 5173
+C) an nginx reverse proxy to deliver the site to port 80 and 443, this proxy is configured to direct all traffic going to http over to https
+
+Note the current site can be viewed locally in my browser at this IP address: 10.6.0.48
+
+Additional info:
+
+The all of this is hosted on a Virtual Machine at 10.6.0.48.  The host machine is at 10.6.0.50 and the host machine gets the internet through something called a Mikrotik (which i think is a router). This Mikrotik has an admin page visible at 10.6.0.1.  The Microtik is plugged into one of the three EERO Mesh devices which make up a local mesh network.  The primary EERO mesh device is plugged into my cable router and then from there out to the internet.  I have determined that my IP address (from the outside) is 96.41.85.126 and so I have pointed the DNS A record of prosaurus.com to this address.
+
+I understand that in order to get prosaurus.com to server the website that i have hosted locally on my VM I must set up port forwarding, however I am confused exactly how this is done because of the fact that I have the Mikrotik as well as my main internet router.  Do i need to set up port forwarding on both devices or how would that work? 
+
+ChatGPT said:
+
+Great question! It sounds like you have a relatively complex network setup involving multiple devices, including a Mikrotik router, an EERO mesh network, and a main internet router. Let's break down the steps and considerations to ensure that your web application hosted on the VM at 10.6.0.48 can be accessed from the outside world using prosaurus.com.
+
+Overview of the Network Flow
+
+External Traffic: When someone accesses prosaurus.com, the traffic will first reach your main internet router (which has the public IP 96.41.85.126).
+
+Mikrotik Router: The main router forwards the request to the Mikrotik router (which is at 10.6.0.1 on your local network).
+
+EERO Mesh Network: The Mikrotik then routes the traffic to the EERO mesh network, which manages your local network.
+
+Your VM: The EERO network will route the request to your VM, which is at 10.6.0.48.
+
+Port Forwarding Requirements
+
+Since you have two devices (the main router and the Mikrotik router) that could potentially need configuration, let's clarify what needs to be set up.
+
+Port Forwarding on the Main Router:
+
+  You will need to set up port forwarding on your main internet router to send traffic on ports 80 (HTTP) and 443 (HTTPS) to the Mikrotik router.
+
+  Example: Forward TCP port 80 and 443 on the main router to 10.6.0.1 (the IP address of your Mikrotik router).
+
+  The reason for this step is that the main router is what receives traffic from the outside world, and you'll need to tell it to forward that traffic to the Mikrotik.
+
+Port Forwarding on the Mikrotik Router:
+
+  The Mikrotik router will then forward the incoming traffic (on ports 80 and 443) to the local IP address of your VM (10.6.0.48).
+
+  Set up port forwarding on the Mikrotik router to forward TCP port 80 and 443 to 10.6.0.48.
+
+  Since your application is hosted on port 3000 for Express.js (backend) and port 5173 for Vue.js (frontend), ensure that Nginx is properly configured to act as a reverse proxy, so all traffic on ports 80 and 443 is forwarded to the appropriate local application ports.
+
+Nginx Setup Considerations
+
+Since you're using Nginx as a reverse proxy, ensure that your Nginx configuration properly forwards requests from port 80 and 443 to your backend and frontend services:
+
+  For HTTP (port 80), Nginx should redirect all traffic to HTTPS (port 443) as you're already doing.
+
+  For HTTPS (port 443), Nginx should forward traffic to the correct ports on your local VM:
+
+  HTTP requests might go to the Express.js backend (port 3000).
+
+  WebSocket or frontend requests should go to Vue.js (port 5173).
+
+Here's a simple example of an Nginx configuration for your reverse proxy:
+
+  server {
+    listen 80;
+    server_name prosaurus.com www.prosaurus.com;
+
+    # Redirect all HTTP to HTTPS
+    return 301 https://$host$request_uri;
+  }
+
+  server {
+    listen 443 ssl;
+    server_name prosaurus.com www.prosaurus.com;
+
+    ssl_certificate /path/to/cert.crt;
+    ssl_certificate_key /path/to/cert.key;
+
+    location / {
+      proxy_pass http://localhost:5173; # For Vue.js
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /api/ {
+      proxy_pass http://localhost:3000; # For Express.js backend
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+    }
+  }
+
+Make sure your backend and frontend services are properly set up to handle requests through Nginx.
+
+Final Steps to Check
+
+  Test Port Forwarding: After setting up the port forwarding on both routers, test if you can reach your application externally by visiting prosaurus.com in a browser.
+
+    Use an online tool like CanYouSeeMe to check if your public IP is reachable on ports 80 and 443.
+
+  Firewall Rules: Ensure that both the Mikrotik and main router firewalls allow traffic on ports 80 and 443 to be forwarded.
+
+  Verify DNS: Make sure the DNS A record for prosaurus.com correctly points to your public IP address (96.41.85.126).
+
+Summary
+
+You need to set up port forwarding on both your main router and Mikrotik router:
+The main router forwards traffic on ports 80 and 443 to the Mikrotik router.
+The Mikrotik router then forwards those requests to your VM's IP (10.6.0.48).
+Your Nginx reverse proxy will handle the traffic and forward it to the appropriate ports on your backend (Express.js on port 3000) and frontend (Vue.js on port 5173).
