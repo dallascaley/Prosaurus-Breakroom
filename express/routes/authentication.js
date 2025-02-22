@@ -9,12 +9,24 @@ const { sendMail } = require('../utilities/sendgrid-email');
 router.post('/signup', async (req, res) => {
   console.log('Request Body');
   console.log(req.body);
+  const client = await getClient();
 
+  const existingUser = await client.query('SELECT * FROM "user_auth" WHERE handle = $1;', [req.body.handle]);
+
+  console.log('existingUser');
+  //console.log(existingUser);
+  if (existingUser.rowCount === 0) {
+    console.log('There are no users with this handle');
+
+
+  } else {
+    console.log('you are a fucking twat, chose another handle');
+  }
   //const client = await getClient();
 
   //const result = await client.query('INSERT INTO "user" (name, password) VALUES ($1, $2);', [req.body.name, req.body.password]);
 
-  sendMail('dallascaley@gmail.com', 'admin@prosaurus.com', 'Hey!!', 'Word.');
+  //sendMail('dallascaley@gmail.com', 'admin@prosaurus.com', 'Hey!!', 'Word.');
 
   //res.json(result.rows);
   res.send('ah yea whatever, signup i guess');

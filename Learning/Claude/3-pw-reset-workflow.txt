@@ -1,0 +1,36 @@
+I've created a sequence diagram showing the secure password reset flow. Here's what's happening:
+
+1) Initial Reset Request:
+
+	* User requests password reset with their email
+	* Backend generates a secure, time-limited reset token
+	* Token is sent via email
+	* Backend always returns OK (even if email not found) for security
+
+2) Token Verification:
+
+	* User clicks the reset link in their email
+	* Backend verifies the token is valid and not expired
+	* If valid, user can proceed; if not, they're shown an error
+
+3) Password Update:
+
+	* User enters new password
+	* Frontend generates new salt and hashes new password
+	* Backend updates the stored credentials
+	* Old token is invalidated
+
+Security features:
+
+ - Time-limited reset tokens
+ - Generic responses to prevent email enumeration
+ - Secure token delivery via email
+ - New salt generated for new password
+ - All communication over HTTPS
+
+Additional security considerations not shown in diagram:
+
+ - Rate limiting on reset requests
+ - Token should be single-use only
+ - Email links should use HTTPS
+ - Reset tokens should be cryptographically secure

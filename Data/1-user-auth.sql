@@ -4,7 +4,7 @@ CREATE TABLE "user_auth" (
   first_name VARCHAR(32),
   last_name VARCHAR(32),
   email VARCHAR(255) UNIQUE NOT NULL,
-  hash VARCHAR(255),
-  salt VARCHAR(255),
+  hash VARCHAR(64),
+  salt VARCHAR(32),
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );

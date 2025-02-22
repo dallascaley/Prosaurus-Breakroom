@@ -1,0 +1,33 @@
+I've created a sequence diagram showing the secure login flow. Here's what's happening:
+
+1) The user enters their credentials in the frontend
+
+2) The frontend sends the login request over HTTPS with:
+
+	* Username
+	* Password (the backend needs the raw password to perform the hash comparison)
+
+3) The backend:
+
+	* Fetches the user's stored hash and salt from the database
+	* Hashes the submitted password with the stored salt
+	* Compares the resulting hash with the stored hash
+	* If they match, generates an authentication token (JWT or session token)
+	* Returns appropriate success/error responses
+
+4) On success:
+
+	* Frontend stores the authentication token
+	* User is logged in
+
+5) On failure:
+
+	* User receives generic "invalid credentials" message
+	* No information about whether username or password was incorrect (security best practice)
+
+Key security features:
+
+ - All communication over HTTPS
+ - Password comparison happens on backend
+ - Generic error messages don't leak information
+ - Authentication token provided for subsequent requests
