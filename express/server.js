@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const app = express();
+const https = require('https');
 
 // Load your SSL certificate and key
 const options = {
@@ -21,7 +22,7 @@ const authentication = require('./routes/authentication');
 app.use(express.json());
 
 // Use routes
-app.use('/auth', authentication);
+app.use('/api/auth', authentication);
 
 
 
@@ -31,4 +32,6 @@ app.get('/', async (req, res) => {
   res.send('Hi, this is the backend, call an actual endpoint or something')
 })
 
-app.listen(3000)
+https.createServer(options, app).listen(3000, () => {
+  console.log('Backend server running on https://prosaurus.com:3000');
+});

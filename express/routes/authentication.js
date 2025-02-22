@@ -17,7 +17,7 @@ router.post('/signup', async (req, res) => {
   sendMail('dallascaley@gmail.com', 'admin@prosaurus.com', 'Hey!!', 'Word.');
 
   //res.json(result.rows);
-  //res.send('ah yea whatever, signup i guess');
+  res.send('ah yea whatever, signup i guess');
 });
 
 router.post('/login', async (req, res) => {

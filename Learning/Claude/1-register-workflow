@@ -1,0 +1,32 @@
+I've created a sequence diagram showing a secure user registration flow. Here's what's happening:
+
+1) The user enters their credentials in the frontend
+
+2) The frontend immediately handles password security:
+
+	* Generates a random salt
+	* Hashes the password with the salt using a strong algorithm like bcrypt
+	* The original password never leaves the frontend
+
+3) The frontend sends the registration request to the backend over HTTPS with:
+
+	* Username
+	* Hashed password
+	* Salt
+	* Raw password is never transmitted
+
+4) The backend:
+
+	* Validates the input
+	* Checks for username uniqueness
+	* Stores the hashed password and salt in the database
+	* Returns appropriate success/error responses
+
+5) The frontend shows appropriate feedback to the user
+
+This approach provides several security benefits:
+
+ - Password is hashed before transmission
+ - HTTPS encrypts all communication
+ - Salt prevents rainbow table attacks
+ - Original password is never stored anywhere
