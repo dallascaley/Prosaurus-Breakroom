@@ -11,25 +11,33 @@ router.post('/signup', async (req, res) => {
   console.log(req.body);
   const client = await getClient();
 
-  const existingUser = await client.query('SELECT * FROM "user_auth" WHERE handle = $1;', [req.body.handle]);
+  const existingUser = await client.query('SELECT * FROM "user_auth" WHERE handle = $1 OR email = $2;', [req.body.handle, req.body.email]);
 
-  console.log('existingUser');
-  //console.log(existingUser);
   if (existingUser.rowCount === 0) {
-    console.log('There are no users with this handle');
+    const result = await client.query(`INSERT INTO 
+      "user_auth" (handle, first_name, last_name, email, hash, salt) 
+      VALUES ($1, $2, $3, $4, $5, $6);`, [
+        req.body.handle, 
+        req.body.first_name,
+        req.body.last_name,
+        req.body.email,
+        req.body.hash,
+        req.body.salt
+      ]);
 
+    sendMail(req.body.email, 'admin@prosaurus.com', 
+      'Yo dawg, I heard you like websites!', 
+      'So i registered you for this website!'
+    );
 
+    res.status(201).json({
+      message: 'User has been created'
+    });
   } else {
-    console.log('you are a fucking twat, chose another handle');
+    res.status(409).json({
+      message: 'User already exists with the provided handle or email.'
+    });
   }
-  //const client = await getClient();
-
-  //const result = await client.query('INSERT INTO "user" (name, password) VALUES ($1, $2);', [req.body.name, req.body.password]);
-
-  //sendMail('dallascaley@gmail.com', 'admin@prosaurus.com', 'Hey!!', 'Word.');
-
-  //res.json(result.rows);
-  res.send('ah yea whatever, signup i guess');
 });
 
 router.post('/login', async (req, res) => {

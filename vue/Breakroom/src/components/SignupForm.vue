@@ -28,6 +28,8 @@
       <input type="password" required v-model="password2">
       <div v-if="passwordError2" class="error">{{ passwordError2 }}</div>
     </div>
+    <!-- Display error message if any -->
+    <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
     <button type="submit">Create User</button>
   </form>
 </template>
@@ -78,7 +80,8 @@ export default {
       password2: '',
       passwordError: '',
       passwordError2: '',
-      emailError: ''
+      emailError: '',
+      errorMessage: ''
     }
   },
   methods: {
@@ -125,7 +128,13 @@ export default {
           console.log('This is the result');
           console.log(result);
         } catch (error) {
-          console.error('Error during hashing or API call:', error);
+          // Check if the error response is a 409 Conflict
+          if (error.response && error.response.status === 409) {
+            this.errorMessage = 'The email or handle is already taken. Please choose another one.';
+          } else {
+            // Handle other errors (e.g., server errors, network issues)
+            this.errorMessage = 'An unexpected error occurred. Please try again later.';
+          }
         }
       
       }
