@@ -125,8 +125,8 @@ export default {
             hash: hash,
             salt: salt
           });
-          console.log('This is the result');
-          console.log(result);
+          
+          
         } catch (error) {
           // Check if the error response is a 409 Conflict
           if (error.response && error.response.status === 409) {

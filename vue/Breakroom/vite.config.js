@@ -31,7 +31,7 @@ export default defineConfig({
     hmr: {
       // Ensure that HMR uses a secure WebSocket (wss://)
       protocol: 'wss',
-      host: '10.6.0.48',  // Update to match your server's public address
+      host: 'prosaurus.com',  // Update to match your server's public address
     },
   },
 });

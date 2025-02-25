@@ -29,7 +29,7 @@ export default {
       console.log('form submitted')
       this.passwordError = this.password.length > 5 ? '' : 'Use a longer password dipshit!'
       if (!this.passwordError) {
-        let result = await axios.post("https://10.6.0.48:3000/auth/login", {
+        let result = await axios.post("https://prosaurus.com/auth/login", {
           name:this.username,
           password:this.password
         })
