@@ -8,8 +8,6 @@ const { v4: uuidv4 } = require('uuid');
 
 // Define authentication-related routes
 router.post('/signup', async (req, res) => {
-  console.log('Request Body');
-  console.log(req.body);
   const client = await getClient();
 
   const existingUser = await client.query('SELECT * FROM "user_auth" WHERE handle = $1 OR email = $2;', [req.body.handle, req.body.email]);
@@ -48,6 +46,22 @@ router.post('/signup', async (req, res) => {
     res.status(409).json({
       message: 'User already exists with the provided handle or email.'
     });
+  }
+});
+
+router.post('/verify', async (req, res) => {
+  const client = await getClient();
+  const now = new Date();
+
+  const verifyUser = await client.query('SELECT * FROM "user_auth" WHERE verification_token = $1 AND verification_expires_at > $2', [req.body.token, now]);
+
+  if (verifyUser.rowCount === 1) {
+    const userId = verifyUser.rows[0].id;
+    await client.query('UPDATE "user_auth" SET email_verified = $1 WHERE id = $2', [true, userId]);
+
+    res.send('verified!');
+  } else {
+    res.send('user not found, fuck off');
   }
 });
 

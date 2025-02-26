@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -26,6 +28,12 @@ export default {
   methods: {
     async verifyEmail(token) {
       try {
+
+        let result = await axios.post("https://prosaurus.com/api/auth/verify", {
+          token: token
+        });
+        console.log(result);
+        /*
         const response = await fetch(`/verify-email?token=${token}`);
         if (response.ok) {
           const data = await response.json();
@@ -34,6 +42,7 @@ export default {
           const data = await response.json();
           this.error = data.error || 'An error occurred';
         }
+        */
       } catch (err) {
         this.error = 'An error occurred while verifying your email';
       } finally {
