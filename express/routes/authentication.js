@@ -5,6 +5,10 @@ const { getClient } = require('../utilities/db');
 const { sendMail } = require('../utilities/sendgrid-email');
 
 const { v4: uuidv4 } = require('uuid');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const SECRET_KEY = process.env.SECRET_KEY;
 
 // Define authentication-related routes
 router.post('/signup', async (req, res) => {
@@ -59,26 +63,62 @@ router.post('/verify', async (req, res) => {
     const userId = verifyUser.rows[0].id;
     await client.query('UPDATE "user_auth" SET email_verified = $1 WHERE id = $2', [true, userId]);
 
-    res.send('verified!');
+    res.status(200).json({
+      message: 'Email address verified'
+    });
   } else {
-    res.send('user not found, fuck off');
+    res.status(400).json({
+      message: 'Unsuccessful verification of email address'
+    });
   }
 });
 
+function hashPasswordWithSalt(password, salt) {
+  return new Promise((resolve, reject) => {
+    const encoder = new TextEncoder();
+    const passwordSalt = encoder.encode(password + salt); // Combine password and salt into one string
+
+    // Hash the combined password and salt using SHA-256
+    crypto.subtle.digest('SHA-256', passwordSalt).then(function(hashBuffer) {
+      const hashArray = Array.from(new Uint8Array(hashBuffer)); // Convert buffer to array
+      const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join(''); // Convert to hex string
+      resolve(hashHex); // Resolve the promise with the hashed value
+    }).catch(function(error) {
+      reject(error); // Reject the promise if there's an error
+    });
+  });
+}
+
 router.post('/login', async (req, res) => {
-  console.log('Request Body');
-  console.log(req.body);
+  const client = await getClient();
 
-  console.log('log in or something whatever...');
-  //const client = await getClient();
+  const user = await client.query('SELECT * FROM "user_auth" WHERE handle = $1', [req.body.handle]);
 
-  //const result = await client.query('INSERT INTO "user" (name, password) VALUES ($1, $2);', [req.body.name, req.body.password]);
+  if (user.rowCount === 1) {
+    // User has been located
+    const hash = await hashPasswordWithSalt(req.body.password, user.rows[0].salt);
+    if (hash === user.rows[0].hash) {
 
-  //sendMail('dallascaley@gmail.com', 'admin@prosaurus.com', 'Hey!!', 'Word.');
+      const payload = { username: req.body.handle };
+      const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
 
-  //res.json(result.rows);
-  //res.send('ah yea whatever, signup i guess');
+      res.status(200).json({
+        message: 'User authenticated',
+        token: token
+      });
+    } else {
+      res.status(400).json({
+        message: 'Unable to login'
+      });
+    }
+  } else {
+    res.status(400).json({
+      message: 'Unable to login'
+    });
+  }
 });
+
+//Suff below here all came default, i'm just leaving it for reference...
 
 // ChatGPT examples below
 router.get('/', (req, res) => {
