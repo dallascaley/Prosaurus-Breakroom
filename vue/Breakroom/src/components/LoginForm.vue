@@ -3,14 +3,14 @@
     <span>Log In</span>
     <div>
       <label>Login/Handle: </label>
-      <input type="text" required v-model="username">
+      <input type="text" required v-model="handle">
     </div>
     <div>
       <label>Password: </label>
       <input type="password" required v-model="password">
       <div v-if="passwordError" class="error">{{ passwordError }}</div>
     </div>
-    <button type="submit">Create User</button>
+    <button type="submit">Login</button>
   </form>
 </template>
 
@@ -19,22 +19,18 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      username: '',
+      handle: '',
       password: '',
       passwordError: ''
     }
   },
   methods: {
     async handleSubmit() {
-      console.log('form submitted')
-      this.passwordError = this.password.length > 5 ? '' : 'Use a longer password dipshit!'
-      if (!this.passwordError) {
-        let result = await axios.post("https://prosaurus.com/auth/login", {
-          name:this.username,
-          password:this.password
-        })
-        console.log(result)
-      }
+      let result = await axios.post("https://prosaurus.com/api/auth/login", {
+        handle:this.handle,
+        password:this.password
+      })
+      console.log(result.data.token)
     }
   }
 }

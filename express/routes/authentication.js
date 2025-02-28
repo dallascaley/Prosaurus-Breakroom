@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
+const NODE_ENV = process.env.NODE_ENV;
 
 // Define authentication-related routes
 router.post('/signup', async (req, res) => {
@@ -102,10 +103,17 @@ router.post('/login', async (req, res) => {
       const payload = { username: req.body.handle };
       const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
 
+      res.cookie('jwtToken', token, {
+        maxAge: 3600000, // 1 hour
+        domain: '.prosaurus.com'
+      });
+      res.json({ message: 'Logged in successfully' });
+      /*
       res.status(200).json({
         message: 'User authenticated',
         token: token
       });
+      */
     } else {
       res.status(400).json({
         message: 'Unable to login'
