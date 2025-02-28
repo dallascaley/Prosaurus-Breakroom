@@ -1,0 +1,193 @@
+Let's start with the docker step.  My system is running in a Virtualbox Ubuntu instance (The VM), the host machine is Windows 11.  What should I install where?  What i mean by that is, should i start by installing docker on the VM, or should it be installed on the host computer?  and what exactly should i be installing?
+
+ChatGPT said:
+
+Great! Let's start with the Docker setup, and I'll walk you through the process of installing it and running your applications in Docker containers. You’ll be dealing with a virtualized environment (VirtualBox VM running Ubuntu) and a host machine (Windows 11), so there are a few things to consider about where Docker should be installed.
+
+Key Considerations:
+
+Where should Docker be installed?
+
+  You should install Docker on the VM running Ubuntu. This is because the VM is acting as your server (where you will eventually deploy your application in production), and you'll want Docker running there for consistency with your production environment.
+
+  Docker on Windows would require running it within a Virtual Machine using something like WSL2 (Windows Subsystem for Linux 2). It’s more straightforward to install Docker directly on the VM (Ubuntu), where you’ll do the actual development and eventually deploy.
+
+Here's how you should go about it:
+
+Step 1: Install Docker on the VM (Ubuntu)
+
+  Update the package index: Open a terminal in your Ubuntu VM and run:
+
+    sudo apt update
+
+  Install required dependencies: You’ll need a few dependencies to install Docker, so run:
+
+    sudo apt install apt-transport-https ca-certificates curl software-properties-common
+
+  Add Docker's official GPG key: To ensure the authenticity of the Docker packages, you need to add Docker's official GPG key:
+
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+  Set up the Docker stable repository: You’ll need to add Docker’s repository to your APT sources list:
+
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+  Update the package index again:
+
+    sudo apt update
+
+  Install Docker: Now, install Docker on your Ubuntu VM with:
+
+    sudo apt install docker-ce
+
+  Check if Docker is installed: Verify the Docker installation by checking the Docker version:
+
+    docker --version
+
+  Start and enable Docker service: Make sure Docker starts on boot:
+
+    sudo systemctl enable docker
+    sudo systemctl start docker
+
+  (Optional) Add your user to the Docker group: By default, only root can run Docker commands. If you want to run Docker as a non-root user, you can add your user to the Docker group:
+
+    sudo usermod -aG docker $USER
+
+    After running this, log out and log back in for the changes to take effect.
+
+  Verify Docker installation: You can test if Docker is running properly by running:
+
+    docker run hello-world
+
+  This will pull a test image from Docker Hub and run it.
+
+Step 2: Install Docker Compose (for multi-container setups)
+
+Docker Compose is helpful for managing multi-container applications (e.g., your Vue.js frontend and Express.js backend). Here’s how to install it:
+
+  Download the latest version of Docker Compose:
+
+    sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+  Set the correct permissions:
+
+    sudo chmod +x /usr/local/bin/docker-compose
+
+  Verify the installation: Check that Docker Compose is installed correctly:
+
+    docker-compose --version
+
+Step 3: Install Docker on Windows (Optional for Development)
+
+While Docker should primarily be installed on the VM (Ubuntu), you might want to install Docker on Windows too if you plan to develop or test on the host machine occasionally. This is optional and can be useful for rapid development.
+
+  Download Docker Desktop for Windows:
+  Download Docker Desktop from here.
+
+Install Docker Desktop:
+
+  Run the installer and follow the installation steps. Once installed, Docker Desktop should automatically start, and you can interact with Docker through the GUI or command line.
+
+Enable WSL 2:
+
+  Docker Desktop for Windows uses WSL 2 (Windows Subsystem for Linux 2) to run Linux containers. Make sure that WSL 2 is enabled on your Windows system. If it’s not enabled yet, you can follow the steps in Docker’s documentation:
+  
+  Install Docker Desktop on Windows.
+
+Step 4: Setting Up Your Dockerized Application
+
+Now that Docker is installed on the VM, you can proceed to set up your application. Here’s what you should do:
+
+Create Dockerfiles for the frontend and backend:
+
+  Frontend (Vue.js):
+
+  Your Vue.js app will likely be built and served using something like Nginx in production. The Dockerfile for the frontend might look like this:
+
+    dockerfile
+  
+    # Step 1: Build the Vue.js application
+    FROM node:16 as build-stage
+    WORKDIR /app
+    COPY . .
+    RUN npm install
+    RUN npm run build
+
+    # Step 2: Serve the Vue.js app with Nginx
+    FROM nginx:alpine as production-stage
+    COPY --from=build-stage /app/dist /usr/share/nginx/html
+    EXPOSE 80
+    CMD ["nginx", "-g", "daemon off;"]
+
+  Backend (Express.js):
+
+  The Dockerfile for your Express.js application might look like this:
+
+    dockerfile
+
+    # Use the official Node.js image
+    FROM node:16
+
+    # Set the working directory
+    WORKDIR /app
+
+    # Copy the application files
+    COPY . .
+
+    # Install dependencies
+    RUN npm install
+
+    # Expose the port the app runs on
+    EXPOSE 3000
+
+    # Start the application
+    CMD ["npm", "run", "devStart"]
+
+Create a docker-compose.yml file to manage both containers:
+
+  yaml
+
+  version: "3"
+  services:
+    frontend:
+      build:
+        context: ./frontend
+      ports:
+        - "8080:80"
+      networks:
+        - app-network
+
+    backend:
+      build:
+        context: ./backend
+      ports:
+        - "3000:3000"
+      networks:
+        - app-network
+
+  networks:
+    app-network:
+      driver: bridge
+
+Build and run the containers: In your project directory, run:
+
+  docker-compose up --build
+
+This will build both the frontend and backend containers and start them.
+
+Step 5: Test the Docker Setup
+
+Once everything is set up:
+
+Frontend: Visit http://<VM_IP>:8080 to check your Vue.js app.
+Backend: Visit http://<VM_IP>:3000 to check your Express.js backend.
+
+Conclusion
+
+Docker should be installed on the Ubuntu VM, where your production setup will eventually run.
+
+You can optionally install Docker Desktop on Windows for testing/developing locally if needed.
+
+Follow the steps above to install Docker, Docker Compose, and begin setting up Dockerfiles for your Vue.js and Express.js apps.
+
+Once you have everything Dockerized, we can move on to configuring the rest of your production pipeline (Terraform, Kubernetes, etc.). Let me know if you run into any issues along the way!
