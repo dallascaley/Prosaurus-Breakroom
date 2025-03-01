@@ -191,3 +191,93 @@ You can optionally install Docker Desktop on Windows for testing/developing loca
 Follow the steps above to install Docker, Docker Compose, and begin setting up Dockerfiles for your Vue.js and Express.js apps.
 
 Once you have everything Dockerized, we can move on to configuring the rest of your production pipeline (Terraform, Kubernetes, etc.). Let me know if you run into any issues along the way!
+
+
+
+Couple of questions....  First.  Where would it make sense to put the dockerfiles (front end and back end) and what would thier naming formats be?  Same question for the docker compose file (although i do see you mentioned .yml so my guess is all three are .yml files).  
+
+Second question is where should i build and run the containers?  Would that typically be done in the same file location as my development version of the app, or should i git clone the files into a new location?
+
+ChatGPT said:
+
+Great questions! Let's address both of them:
+
+1. File Structure & Naming Conventions for Dockerfiles and Docker Compose
+The file structure of your project is important for organization and clarity, especially when it grows. Here's how you can structure it:
+
+File Structure Example:
+
+
+/my-project
+├── frontend/                  # Vue.js frontend code
+│   ├── Dockerfile             # Dockerfile for Vue.js frontend
+│   ├── package.json           # Vue.js app dependencies
+│   └── src/                   # Your Vue.js source code
+├── backend/                   # Express.js backend code
+│   ├── Dockerfile             # Dockerfile for Express.js backend
+│   ├── package.json           # Express.js app dependencies
+│   └── src/                   # Your Express.js source code
+├── docker-compose.yml         # Docker Compose file for orchestrating both frontend & backend
+└── .gitignore                 # (Optional) Git ignore file
+
+Naming Conventions:
+
+  Dockerfiles:
+
+    You should name your Dockerfiles simply as Dockerfile (no extension).
+
+    The Dockerfile for each service (frontend, backend) should reside inside their respective project directories (e.g., frontend/Dockerfile and backend/Dockerfile).
+
+  Docker Compose file:
+
+    The Docker Compose file should be named docker-compose.yml and placed at the root of your project.
+
+    This file will manage both your frontend and backend services and allow you to orchestrate building and running them together.
+
+2. Building and Running Containers:
+
+Where to build and run the containers?
+
+Option 1: In your project directory (same as your development setup)
+
+  The most common practice is to build and run the containers in the same directory where your development version of the app resides. This keeps everything organized, and Docker can easily access your application files.
+
+  Typically, you will have a docker-compose.yml file at the root of your project, and you would build/run the containers from that directory. This allows you to build and manage all services (frontend, backend) together with a single command.
+
+  Steps:
+
+    Make sure your Dockerfiles are in the right places (inside frontend/ and backend/ directories).
+
+    Create your docker-compose.yml file at the root of the project (/my-project/docker-compose.yml).
+
+    Run the containers: Navigate to the root of your project where the docker-compose.yml file is located and then run:
+
+      docker-compose up --build
+
+    This command will:
+
+    Build both your frontend and backend Docker images based on their respective Dockerfiles.
+
+    Start the containers for the frontend and backend, running them together.
+
+Option 2: Cloning into a new location
+
+You typically don't need to clone your project into a new location just to build Docker images. Keeping everything in one repository and using Docker Compose from within the same directory structure is the most straightforward approach.
+
+However, if you wanted to experiment or create a separate test environment, you could clone the repo elsewhere, but it’s not necessary. Everything can be managed within the existing project directory using Docker and Docker Compose.
+
+Summary:
+
+File Structure & Naming:
+
+  Dockerfile in the frontend/ and backend/ directories (no extensions).
+
+  docker-compose.yml at the root of your project.
+
+Building and Running Containers:
+
+  Run docker-compose up --build from the root of your project (where the docker-compose.yml is).
+
+  You don’t need to clone into a new location — just keep everything in your current project structure and manage it with Docker Compose.
+
+Let me know if you need any more clarification or if you run into any issues setting this up!
