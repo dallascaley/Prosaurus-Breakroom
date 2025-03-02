@@ -1,7 +1,4 @@
 ##
-# For the purpose of putting this all into a git repo, this is the ngix conf file
-# which is normally located here: /etc/nginx/sites-available/default
-#
 # You should look at the following URL's in order to grasp a solid understanding
 # of Nginx configuration files in order to fully unleash the power of Nginx.
 # https://www.nginx.com/resources/wiki/start/
@@ -21,7 +18,8 @@
 
 server {
   listen 80;
-  server_name 10.6.0.48;
+  # server_name 10.6.0.48; # this is what it was originally, and it works (sorta)
+  server_name *.prosaurus.com;
 
   # Redirect HTTP to HTTPS
   return 301 https://$host$request_uri;
@@ -29,14 +27,15 @@ server {
 
 server {
   listen 443 ssl;
-  server_name 10.6.0.48;
+  # server_name 10.6.0.48;
+  server_name *.prosaurus.com;
 
-  ssl_certificate /home/dallas/prosaurus/cert.pem;
-  ssl_certificate_key /home/dallas/prosaurus/key.pem;
+  ssl_certificate /etc/letsencrypt/live/prosaurus.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/prosaurus.com/privkey.pem;
 
   # Proxy to Vite dev server
   location / {
-    proxy_pass http://localhost:5173;  # Vite dev server
+    proxy_pass https://localhost:5173;  # Vite dev server
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -50,10 +49,20 @@ server {
 
   # Proxy to Express app
   location /api/ {
-    proxy_pass http://localhost:3000;  # Your existing Express app
+    proxy_pass https://localhost:3000;  # Your existing Express app
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
   }
+
+  # Proxy WebSocket connections
+  location /wss/ {
+    proxy_pass http://localhost:5173;  # Backend WebSocket server (use HTTP internally)
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+  }
 }
+
