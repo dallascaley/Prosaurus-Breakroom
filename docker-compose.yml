@@ -2,7 +2,9 @@ version: "3.8"
 services:
   frontend:
     build:
-      context: ./vue 
+      context: ./vue/Breakroom
+    volumes:
+      - /home/dallas/prosaurus/express/etc/letsencrypt:/etc/letsencrypt:ro
     container_name: docker_dcaley_frontend
     ports:
       - "8080:80"  # Expose HTTP port (HTTP traffic) for development or internal use

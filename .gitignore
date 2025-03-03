@@ -2,6 +2,8 @@ node/node_modules/*
 vue/Breakroom/node_modules/*
 express/node_modules/*
 express/.env
+express/etc
+express/etc/*
 cert.pem
 csr.pem
 key.pem
