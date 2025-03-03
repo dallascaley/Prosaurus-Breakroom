@@ -3,6 +3,7 @@ services:
   frontend:
     build:
       context: ./vue 
+    container_name: docker_dcaley_frontend
     ports:
       - "8080:80"  # Expose HTTP port (HTTP traffic) for development or internal use
       - "443:443"  # Expose HTTPS port if you want the frontend to handle SSL (optional, if reverse proxy is not used)
@@ -14,6 +15,7 @@ services:
   backend:
     build:
       context: ./express  # Path to the backend Dockerfile (from your description)
+    container_name: docker_dcaley_backend
     ports:
       - "3000:3000"  # Expose backend service on port 3000
     networks:
