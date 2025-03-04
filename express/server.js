@@ -7,10 +7,7 @@ const app = express();
 const https = require('https');
 
 // Load your SSL certificate and key
-const options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/prosaurus.com/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/prosaurus.com/fullchain.pem'),
-};
+const options = {};
 
 app.use(cors());
 

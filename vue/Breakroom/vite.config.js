@@ -19,10 +19,6 @@ export default defineConfig({
     },
   },
   server: {
-    https: {
-      key: fs.readFileSync('/etc/letsencrypt/live/prosaurus.com/privkey.pem'),
-      cert: fs.readFileSync('/etc/letsencrypt/live/prosaurus.com/fullchain.pem')
-    },
     host: '0.0.0.0', // This is important for network access
     port: 5173, // You can adjust the port if needed
     watch: {

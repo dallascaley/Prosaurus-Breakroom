@@ -1,5 +1,7 @@
 node/node_modules/*
 vue/Breakroom/node_modules/*
+vue/Breakroom/etc
+vue/Breakroom/etc/*
 express/node_modules/*
 express/.env
 express/etc
