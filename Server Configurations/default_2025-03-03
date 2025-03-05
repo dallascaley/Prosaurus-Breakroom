@@ -18,7 +18,6 @@
 
 server {
   listen 80;
-  # server_name 10.6.0.48; # this is what it was originally, and it works (sorta)
   server_name *.prosaurus.com;
 
   # Redirect HTTP to HTTPS
@@ -27,7 +26,6 @@ server {
 
 server {
   listen 443 ssl;
-  # server_name 10.6.0.48;
   server_name *.prosaurus.com;
 
   ssl_certificate /etc/letsencrypt/live/prosaurus.com/fullchain.pem;

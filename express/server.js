@@ -30,5 +30,6 @@ app.get('/', async (req, res) => {
 })
 
 https.createServer(options, app).listen(3000, () => {
-  console.log('Backend server running on https://prosaurus.com:3000');
+  const backendUrl = process.env.BACKEND_URL || 'https://www.prosaurus.com';
+  console.log(`Backend server running on ${backendUrl}`);
 });
