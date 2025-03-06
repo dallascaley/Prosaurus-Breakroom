@@ -4,11 +4,12 @@ services:
       context: ./vue/Breakroom
     container_name: docker_dcaley_frontend
     ports:
-      - "8080:80"  # Expose HTTP port (HTTP traffic) for development or internal use
+      - "5173:5173"  # Expose HTTP port (HTTP traffic) for development or internal use
     networks:
       - app-network
     environment:
       - VUE_APP_BACKEND_URL=https://backend:3000  # Example of backend URL for API calls from frontend
+      - VITE_PORT=5173
   
   backend:
     build:
@@ -43,4 +44,5 @@ services:
 
 networks:
   app-network:
+    name: app-network
     driver: bridge
