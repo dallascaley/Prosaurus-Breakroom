@@ -5,11 +5,14 @@ services:
     container_name: docker_dcaley_frontend
     ports:
       - "5173:5173"  # Expose HTTP port (HTTP traffic) for development or internal use
-    networks:
-      - app-network
+    volumes:
+      - ./vue/Breakroom:/app
     environment:
       - VUE_APP_BACKEND_URL=https://backend:3000  # Example of backend URL for API calls from frontend
       - VITE_PORT=5173
+    networks:
+      - app-network
+    command: npm run dev
   
   backend:
     build:
@@ -17,12 +20,15 @@ services:
     container_name: docker_dcaley_backend
     ports:
       - "3000:3000"  # Expose backend service on port 3000
-    networks:
-      - app-network
+    volumes:
+      - ./express:/app
     environment:
       - BACKEND_URL=https://docker.dcaley.prosaurus.com
     env_file:
       - ./express/.env
+    networks:
+      - app-network
+    command: npx nodemon server.js
 
   reverse-proxy:
     image: nginx:alpine
