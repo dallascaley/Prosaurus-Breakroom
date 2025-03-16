@@ -61,3 +61,22 @@ app.get('/', async (req, res) => {
   //res.render("index", { text2: 'World duh...'});
 })
 
+<- March 15th Status ->
+
+Intalled Docker, got a basic docker image created
+
+Installed Terraform, went through 8 tutorials on Terraform
+
+Installed Kubernetes command line tool kubectl.exe
+Installed Kind.exe also
+
+Made a kubernetes cluster with kind. not really sure how to use it yet.  still learning.
+
+Future steps
+
+Merge this code into working docker instance
+
+possible do this again but with one of the terraform creatd docker instances
+
+and again with whatever the fuck kubernetes has created. 
+
