@@ -75,3 +75,14 @@ So, Do You Need All Three?
     Use Kubeadm if you're setting up a production-grade or multi-node Kubernetes cluster on real hardware or cloud VMs.
 
 Each tool serves different purposes depending on your use case (development, testing, production) and your environment (local vs. real hardware or cloud).
+
+
+Notes:
+
+3/15/2024: Kind installed, tested
+
+3/17/2024: Downloading Minikube
+
+Minikube installed and fully tested, still not sure why i would want it when it is not production
+
+To do: install Kubeadm
