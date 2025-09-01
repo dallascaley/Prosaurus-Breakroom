@@ -1,0 +1,124 @@
+Problem
+You're building a production-ready frontend image with Vue + Nginx (correct), but then your docker-compose.yml mounts:
+
+yaml
+Copy
+Edit
+volumes:
+  - ./frontend:/app
+  - /app/node_modules
+This overrides the contents of /app, including everything built during the image build — such as the dist folder. So:
+
+🔥 Your production dist folder gets wiped out when the container runs, and NGINX falls back to the default welcome page.
+
+✅ Solution Options
+You have two possible approaches:
+
+✅ Option 1: Use Dev Mode (Vite Dev Server)
+This is what you're currently doing, and it works if you want hot reloading and fast feedback while developing.
+
+Keep the volume: ./frontend:/app
+
+Reverse proxy to frontend:5173 (via Vite)
+
+In this case, you're not using the NGINX image at all for frontend, you're just exposing Vite.
+
+👍 This works, and is common during dev.
+
+✅ Option 2: Run True Production Build
+If you want NGINX to serve the compiled static site, you must:
+
+Remove volume mounting in frontend service
+
+yaml
+Copy
+Edit
+frontend:
+  volumes:
+    # - ./frontend:/app  ❌ REMOVE THIS
+    - /app/node_modules  # optional
+⚠️ This is key — it avoids overwriting /app (which contains /app/dist after build).
+
+Make sure you're using the production NGINX image
+Your current frontend Dockerfile ends like this:
+
+dockerfile
+Copy
+Edit
+FROM node:24.2.0-alpine AS production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+EXPOSE 5173
+CMD ["nginx", "-g", "daemon off;"]
+✅ This looks good, except you're using Node in the final stage instead of NGINX!
+
+🔧 Fix that by changing to:
+
+dockerfile
+Copy
+Edit
+FROM nginx:alpine AS production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+✅ This will result in a proper static site served via NGINX.
+
+Update reverse proxy to point to frontend on port 80, not 5173:
+
+nginx
+Copy
+Edit
+location / {
+  proxy_pass http://frontend:80;
+  ...
+}
+Because in production mode, your frontend container is running NGINX on port 80, not Vite dev server on 5173.
+
+🔁 Summary of Changes (Prod Mode)
+✅ frontend/Dockerfile
+dockerfile
+Copy
+Edit
+FROM node:24.2.0-alpine AS build-stage
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine AS production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+✅ docker-compose.yml frontend service
+yaml
+Copy
+Edit
+frontend:
+  build:
+    context: ./frontend
+  networks:
+    - app-network
+  ports:
+    - "8080:80"  # optional for testing directly
+  environment:
+    NODE_ENV: ${NODE_ENV}
+    VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+  # 🚫 REMOVE volume that overwrites /app
+  # volumes:
+  #   - ./frontend:/app
+✅ Reverse Proxy: nginx.conf
+nginx
+Copy
+Edit
+location / {
+  proxy_pass http://frontend:80;
+  ...
+}
+💡 Final Tips
+In dev: use vite + 5173 + volume mount.
+
+In prod: use nginx:alpine + built /app/dist + no volume mount.
+
+You can toggle between them using docker-compose overrides or profiles (dev / prod). Let me know if you want help setting that up too.
+
+Would you like an example docker-compose.override.yml to separate dev and prod cleanly?

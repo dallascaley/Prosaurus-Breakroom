@@ -1,0 +1,126 @@
+my docker-compose currently has this: command: sh -c "npm install && npm run dev"
+
+While i suspect this works, it seems to be configured for dev not production.  how do i make this work for both?
+
+You're exactly right to question this — the command:
+
+  command: sh -c "npm install && npm run dev"
+  is absolutely suitable for development, but not appropriate for production.
+
+Let’s break it down and show you how to configure your docker-compose.yml for both dev and prod environments properly.
+
+🧪 What That Command Does
+
+  command: sh -c "npm install && npm run dev"
+  
+npm install installs all dependencies, including dev dependencies.
+
+npm run dev typically runs a dev server like nodemon, Vite dev server, etc.
+
+This keeps the process running in watch mode, with hot reload — good for local dev.
+
+🚀 In Production
+In production, you typically want:
+
+To install only production dependencies:
+
+bash
+Copy
+Edit
+npm ci --omit=dev
+or
+
+bash
+Copy
+Edit
+npm install --omit=dev
+To run the compiled or production-ready build, e.g.:
+
+bash
+Copy
+Edit
+npm run start
+🛠 Recommended Setup Using Compose Override
+Use a base docker-compose.yml for shared config and an override file (docker-compose.override.yml for dev, or docker-compose.prod.yml for production).
+
+🔧 docker-compose.yml (Base)
+yaml
+Copy
+Edit
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      NODE_ENV: ${NODE_ENV}
+    networks:
+      - app-network
+🧪 docker-compose.override.yml (for Dev)
+Compose uses this automatically when you run docker-compose up.
+
+yaml
+Copy
+Edit
+services:
+  app:
+    command: sh -c "npm install && npm run dev"
+    volumes:
+      - ./src:/app/src
+🚀 docker-compose.prod.yml
+yaml
+Copy
+Edit
+services:
+  app:
+    command: sh -c "npm install --omit=dev && npm run start"
+Or better (if you can bake it into your Dockerfile):
+
+yaml
+Copy
+Edit
+services:
+  app:
+    command: npm run start
+✅ Your Dockerfile Should Reflect This Too
+For production builds, bake dependencies into the image:
+
+Dockerfile
+Copy
+Edit
+# Dockerfile
+
+FROM node:18
+
+WORKDIR /app
+
+COPY package*.json ./
+
+# Install only production deps
+RUN npm install --omit=dev
+
+COPY . .
+
+# Build step (if needed, e.g., React/Vite frontend)
+RUN npm run build
+
+EXPOSE 3000
+CMD ["npm", "run", "start"]
+🔁 Switching Between Environments
+🔧 Development (default):
+bash
+Copy
+Edit
+docker-compose up
+🚀 Production:
+bash
+Copy
+Edit
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml --env-file .env.production up -d --build
+🧠 Summary
+Environment	Command	Runs
+Dev	npm install && npm run dev	Watches, reloads
+Prod	npm install --omit=dev && npm run start	Runs optimized, no dev tools
+
+Would you like me to help update your actual Dockerfile or docker-compose.yml based on this pattern?
